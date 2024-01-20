@@ -9,3 +9,75 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model user {
+  id            String      @id @default(uuid())
+  firstName     String
+  lastName      String
+  email         String
+  projects      projects[]
+  bio           String?
+  profileImg    String?
+  bannerImg     String?
+  occupation    String?
+  location      String?
+  websiteUrl    String?
+  socialLinks   links[]
+  workExperince Experince[]
+  languages     language[]
+  contactInfo   String?
+  comments      comments[]
+}
+
+model Experince {
+  id           String    @id @default(uuid())
+  user         user      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+  company      String
+  location     String
+  posotion     String
+  startingDate DateTime
+  endingDate   DateTime?
+}
+
+enum level {
+  BEGGINER
+  INTERMEDIATE
+  ADVANCED
+}
+
+model language {
+  id     String @id @default(uuid())
+  name   String
+  level  level
+  user   user   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+}
+
+model projects {
+  id          String     @id @default(uuid())
+  user        user       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  name        String
+  description String
+  images      String[]
+  comments    comments[]
+  moreToKnow  String
+}
+
+model comments {
+  id          String    @id @default(uuid())
+  projects    projects? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId   String?
+  message     String
+  createdBy   user      @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  createdById String
+}
+
+model links {
+  id     String @id @default(uuid())
+  name   String
+  link   String
+  user   user   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+}
