@@ -14,7 +14,8 @@ model user {
   id            String      @id @default(uuid())
   firstName     String
   lastName      String
-  email         String
+  email         String      @unique
+  password      String
   projects      projects[]
   bio           String?
   profileImg    String?
@@ -27,6 +28,8 @@ model user {
   languages     language[]
   contactInfo   String?
   comments      comments[]
+  Account       Account[]
+  Session       Session[]
 }
 
 model Experince {
@@ -80,4 +83,31 @@ model links {
   link   String
   user   user   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user user @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         user     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
