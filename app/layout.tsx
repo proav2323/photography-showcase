@@ -4,7 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Toaster } from "react-hot-toast";
 import ToasterProvider from "@/components/providers/toastProvider";
-import { getCurrentUser } from "@/actions/getCurrentUser";
+import  getCurrentUser  from "@/actions/getCurrentUser";
 import Navabr from "@/components/Navabr";
 
 

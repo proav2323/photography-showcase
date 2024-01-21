@@ -1,10 +1,11 @@
-import NextAuth, { AuthOptions } from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
-import CredentialsProvider from "next-auth/providers/credentials";
+import NextAuth, { AuthOptions } from "next-auth";
 import { db } from "@/libs/sb";
+import GithubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { error } from "console";
+import bcrypt from "bcrypt";
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(db),
@@ -47,10 +48,10 @@ export const authOptions: AuthOptions = {
     signIn: "/",
   },
   debug: process.env.NODE_ENV === "development",
+  secret: process.env.NEXTAUTH_SECRET as string,
   session: {
     strategy: "jwt",
   },
-  secret: process.env.NEXTAUTH_SECRET,
 };
 
 export default NextAuth(authOptions);
