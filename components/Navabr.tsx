@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import {user} from "@prisma/client"
 import { ModeToggle } from './ModeToggle'
@@ -12,9 +13,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { useModal } from '@/hooks/useModel'
+import { signOut } from 'next-auth/react';
 
 
 export default function Navabr({currentUser}: {currentUser: null | user}) {
+  const {onOpen} = useModal()
   return (
    <div className='flex flex-row justify-between items-center h-[60px] w-full dark:bg-neutral-700 bg-neutral-400 shadow-md gap-2 dark:shadow-black shadow-neutral-400'>
       <div className='flex flex-row gap-2 px-2'>
@@ -31,7 +35,7 @@ export default function Navabr({currentUser}: {currentUser: null | user}) {
         {currentUser ? (
           <DropdownMenu>
   <DropdownMenuTrigger asChild>
-    <Avatar>
+    <Avatar className=' cursor-pointer'>
   <AvatarImage src={currentUser.profileImg ?? ""} />
   <AvatarFallback>{currentUser.firstName.charAt(0)}{currentUser.lastName.charAt(0)}</AvatarFallback>
 </Avatar>
@@ -43,10 +47,12 @@ export default function Navabr({currentUser}: {currentUser: null | user}) {
     <DropdownMenuItem>Discover</DropdownMenuItem>
     <DropdownMenuItem>Hire</DropdownMenuItem>
     <DropdownMenuItem></DropdownMenuItem>
+    <DropdownMenuSeparator></DropdownMenuSeparator>
+    <DropdownMenuItem onClick={() => signOut()}>Logout</DropdownMenuItem>
   </DropdownMenuContent>
 </DropdownMenu>
         ) : (
-          <Button variant={"secondary"} className='flex flex-fow gap-2 justify-center items-center'><LogIn size={16} /> Login</Button>
+          <Button variant={"secondary"} onClick={() => onOpen("Login")} className='flex flex-fow gap-2 justify-center items-center'><LogIn size={16} /> Login</Button>
         )}
       </div>
    </div>

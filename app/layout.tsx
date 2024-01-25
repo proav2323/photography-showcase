@@ -6,6 +6,7 @@ import { Toaster } from "react-hot-toast";
 import ToasterProvider from "@/components/providers/toastProvider";
 import  getCurrentUser  from "@/actions/getCurrentUser";
 import Navabr from "@/components/Navabr";
+import ModelProvider from "@/components/providers/ModelProvider";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -28,6 +29,7 @@ export default async function RootLayout({
             defaultTheme="system"
             enableSystem>
           <ToasterProvider />
+          <ModelProvider />
           <Navabr currentUser={currentUser} />
            {children}
         </ThemeProvider>
