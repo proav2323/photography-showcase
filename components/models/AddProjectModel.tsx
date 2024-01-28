@@ -45,6 +45,7 @@ export default function AddProjectModel() {
     const open = type === "addProject" && isOpen
     const {currentUser} = data
     const [images, setImages] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
 
 
     const form = useForm<z.infer<typeof addPorjectSvhemea>>({
@@ -56,7 +57,6 @@ export default function AddProjectModel() {
         }
     })
 
-    const [isLoading, setIsLoading] = useState(false)
 
     const onSubmit = (values: z.infer<typeof addPorjectSvhemea>) => {
 

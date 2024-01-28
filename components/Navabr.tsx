@@ -26,7 +26,6 @@ export default function Navabr({currentUser}: {currentUser: null | user}) {
     }
 
     onOpen("addProject", {currentUser: currentUser})
-    console.log("kl")
   }
   return (
    <div className='flex flex-row justify-between items-center h-[60px] w-full dark:bg-neutral-700 bg-neutral-400 shadow-md gap-2 dark:shadow-black shadow-neutral-400'>
