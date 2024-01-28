@@ -69,11 +69,11 @@ model projects {
 }
 
 model comments {
-  id          String    @id @default(uuid())
-  projects    projects? @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  projectId   String?
+  id          String   @id @default(uuid())
+  projects    projects @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId   String
   message     String
-  createdBy   user      @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  createdBy   user     @relation(fields: [createdById], references: [id], onDelete: Cascade)
   createdById String
 }
 

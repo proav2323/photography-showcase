@@ -19,10 +19,19 @@ import { signOut } from 'next-auth/react';
 
 export default function Navabr({currentUser}: {currentUser: null | user}) {
   const {onOpen} = useModal()
+
+  const model = () => {
+    if (!currentUser) {
+      return;
+    }
+
+    onOpen("addProject", {currentUser: currentUser})
+    console.log("kl")
+  }
   return (
    <div className='flex flex-row justify-between items-center h-[60px] w-full dark:bg-neutral-700 bg-neutral-400 shadow-md gap-2 dark:shadow-black shadow-neutral-400'>
       <div className='flex flex-row gap-2 px-2'>
-          <span className='text-lg font-bold'>PHOTOSHOW</span>
+          <span className='md:text-lg font-bold text-md'>PHOTOSHOW</span>
       </div>
       <div className='md:w-[50%] mx-2 hidden md:flex relative bg-white dark:bg-neutral-700 rounded-full justify-center items-center'>
         <Button className='dark:text-white text-black bg-transparent rounded-l-full border-[1px] dark:border-black border-neutral-400 h-[50px] rounded-r-none hover:bg-transparent'><Search size={16} className='text-center' /></Button>
@@ -31,7 +40,7 @@ export default function Navabr({currentUser}: {currentUser: null | user}) {
       <div className='flex flex-row justify-center items-center gap-2 px-2'>
         <ModeToggle />
         <Button variant={"outline"} className='flex flex-row gap-2 justify-center md:hidden items-center'><Search size={24} /></Button>
-        <Button variant={"outline"} className='flex flex-row gap-2 justify-center items-center'><Share size={24} /> share your work</Button>
+        <Button variant={"outline"} className='flex-row gap-2 justify-center items-center hidden md:flex' onClick={() => model()}><Share size={24} /> share your work</Button>
         {currentUser ? (
           <DropdownMenu>
   <DropdownMenuTrigger asChild>
@@ -46,7 +55,7 @@ export default function Navabr({currentUser}: {currentUser: null | user}) {
     <DropdownMenuItem>Profile</DropdownMenuItem>
     <DropdownMenuItem>Discover</DropdownMenuItem>
     <DropdownMenuItem>Hire</DropdownMenuItem>
-    <DropdownMenuItem></DropdownMenuItem>
+    <DropdownMenuItem className='flex md:hidden' onClick={() => model()}>Show Your Work</DropdownMenuItem>
     <DropdownMenuSeparator></DropdownMenuSeparator>
     <DropdownMenuItem onClick={() => signOut()}>Logout</DropdownMenuItem>
   </DropdownMenuContent>
