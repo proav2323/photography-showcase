@@ -18,10 +18,12 @@ import { signOut } from 'next-auth/react';
 
 
 export default function Navabr({currentUser}: {currentUser: null | user}) {
-  const {onOpen} = useModal()
+  const {onOpen, onClose} = useModal()
 
   const model = () => {
     if (!currentUser) {
+      onClose()
+      onOpen("Login")
       return;
     }
 
