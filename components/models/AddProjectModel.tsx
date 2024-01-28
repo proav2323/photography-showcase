@@ -71,7 +71,8 @@ export default function AddProjectModel() {
     if (!currentUser) {
         Toast.error("login first")
         onClose()
-        return onOpen("Login")
+        onOpen("Login")
+        return null;
     }
 
     
@@ -81,7 +82,7 @@ export default function AddProjectModel() {
         <DialogContent className='h-fit max-h-[100vh] overflow-y-scroll noScroll'>
               <Heading title='Show Your Work' subtitle='Add Project' center />
               <Separator />
-              {/* <Form {...form}>
+              <Form {...form}>
                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full flex flex-col">
                             <FormField
         disabled={isLoading}
@@ -98,7 +99,7 @@ export default function AddProjectModel() {
           )}
         />
                  </form>
-              </Form> */}
+              </Form>
         </DialogContent>
     </Dialog>
   )
