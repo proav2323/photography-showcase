@@ -7,12 +7,15 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import bg from '../public/images/bg.jpg'
 import { LocateIcon } from 'lucide-react'
+import { useModal } from '@/hooks/useModel'
+import { user } from '@prisma/client'
 
-export default function ProjectsList({projects}: {projects: projectWithCommenst[]}) {
+export default function ProjectsList({projects, currentUser}: {projects: projectWithCommenst[], currentUser?: user | null}) {
     const [show, setShow] = useState(false)
     const [projectId, setProjectId] = useState("")
     const [popshow, popsetShow] = useState(false)
     const [popprojectId, popsetProjectId] = useState("")
+    const {onOpen} = useModal()
   return (
     <div className='flex flex-wrap gap-2'>
        {projects.map((project, index) => {
@@ -25,7 +28,7 @@ export default function ProjectsList({projects}: {projects: projectWithCommenst[
                 }} onMouseLeave={() => {
                     setShow(false)
                     setProjectId("")
-                }}>
+                }} onClick={() => onOpen("updateProject", {currentUser: currentUser !== null ? currentUser : undefined, project: project})}>
                     <Image src={project.images[0]} alt="project" fill className='rounded-md'  />
                     {show && projectId === project.id && (
                         <div className='absolute bottom-2 left-2 bg-gradient-to-t'>

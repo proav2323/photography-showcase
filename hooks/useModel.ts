@@ -8,8 +8,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { user } from "@prisma/client";
+import { projectWithCommenst } from "@/types";
 
-export type modelType = "Login" | "register" | "addProject";
+export type modelType = "Login" | "register" | "addProject" | "updateProject";
 
 export interface modelStore {
   type: modelType | null;
@@ -21,6 +22,7 @@ export interface modelStore {
 
 interface modelData {
   currentUser?: user;
+  project?: projectWithCommenst;
 }
 
 export const useModal = create<modelStore>((set) => ({

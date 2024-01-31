@@ -11,7 +11,7 @@ export default async function Home() {
   return (
      <div className="flex flex-col gap-2 px-2 my-2">
       <Heading title="Projects" subtitle="Added Projects" />
-      <ProjectsList projects={projects} />
+      <ProjectsList projects={projects} currentUser={currentUser} />
      </div>
   );
 }
