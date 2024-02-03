@@ -79,7 +79,10 @@ export default function ProjectDetails() {
     </Carousel>
               </div>
 
-            <div className='flex flex-row gap-2 items-center justify-start cursor-pointer w-[95%]'>
+            <div className='flex flex-row gap-2 items-center justify-start cursor-pointer w-[95%]' onClick={() => {
+              onClose()
+              router.push(`users/${project?.user.id}`)
+              }}>
                          <Avatar className='w-[50px] h-[50px] text-sm'>
   <AvatarImage src={project?.user.profileImg ?? ""} />
   <AvatarFallback>{project?.user.firstName.charAt(0)}{project?.user.lastName.charAt(0)}</AvatarFallback>

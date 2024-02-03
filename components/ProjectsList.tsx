@@ -10,13 +10,15 @@ import { LocateIcon } from 'lucide-react'
 import { useModal } from '@/hooks/useModel'
 import { user } from '@prisma/client'
 import EmptyState from './EmptyState'
+import { useRouter } from 'next/navigation'
 
-export default function ProjectsList({projects, currentUser, showButton = false}: {projects: projectWithCommenst[], currentUser?: user | null, showButton?: boolean}) {
+export default function ProjectsList({projects, currentUser, showButton = false, showMoreOptions = false}: {projects: projectWithCommenst[], currentUser?: user | null, showButton?: boolean, showMoreOptions?: boolean}) {
     const [show, setShow] = useState(false)
     const [projectId, setProjectId] = useState("")
     const [popshow, popsetShow] = useState(false)
     const [popprojectId, popsetProjectId] = useState("")
     const {onOpen} = useModal();
+    const router = useRouter()
 
     if (projects.length <= 0) {
         return (
@@ -45,13 +47,13 @@ export default function ProjectsList({projects, currentUser, showButton = false}
                 </div>
                     <Popover open={popshow && popprojectId === project.id}>
                         <PopoverTrigger>
-                                            <div className='flex flex-row gap-2 items-center justify-start cursor-pointer' onMouseEnter={() => {
+                        <div className='flex flex-row gap-2 items-center justify-start cursor-pointer' onMouseEnter={() => {
                     popsetShow(true)
                     popsetProjectId(project.id)
                 }} onMouseLeave={() => {
                     popsetShow(false)
                     popsetProjectId("")
-                }}>
+                }} onClick={() => router.push(`/users/${project.user.id}`)}>
                          <Avatar className='w-5 h-5 text-sm'>
   <AvatarImage src={project.user.profileImg ?? ""} />
   <AvatarFallback>{project.user.firstName.charAt(0)}{project.user.lastName.charAt(0)}</AvatarFallback>
