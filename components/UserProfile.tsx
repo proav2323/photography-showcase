@@ -35,7 +35,7 @@ export default function UserProfile({user, currentUser}: {user: userWithInfo, cu
          <Image fill src={user.bannerImg !== null ? user.bannerImg : bg} alt="" />
       </div>
     <div className='flex md:flex-row flex-col justify-center items-center gap-4 w-full relative'>
-      <Card className='absolute -top-[50px] mx-auto md:left-[0.26vw] md:w-[25vw] w-[90%]'>
+      <Card className='md:absolute -top-[50px] mx-auto md:left-[0.26vw] md:w-[25vw] w-[90%]'>
         <CardContent className='flex justify-center items-center flex-col p-2 w-full overflow-x-hidden'>
             <Avatar className='my-2 w-[100px] h-[100px]'>
               <AvatarImage src={user.profileImg ?? ""} />
@@ -88,7 +88,7 @@ export default function UserProfile({user, currentUser}: {user: userWithInfo, cu
         </CardContent>
       </Card>
       <div className='md:w-[84vw] md:ml-[26vw] w-[95%] my-2 md:my-0'>
-        <ProjectsList projects={user.projects} showMoreOptions currentUser={currentUser} />
+        <ProjectsList projects={user.projects} showMoreOptions currentUser={currentUser} title='no projects create by this user' subTitle='try differnet user' />
       </div>
     </div>
     </div>

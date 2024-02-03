@@ -53,3 +53,32 @@ export async function POST(
     return new NextResponse("something went wrong", { status: 500 });
   }
 }
+
+export async function DELETE(
+  req: Request,
+  { params }: { params: { projectId: string } }
+) {
+  try {
+    const { projectId } = params;
+    const currentUser = await getCurrentUser();
+
+    if (!projectId) {
+      return new NextResponse("invalid id", { status: 404 });
+    }
+
+    if (!currentUser) {
+      return new NextResponse("unauthorized", { status: 401 });
+    }
+
+    const project = await db.projects.delete({
+      where: {
+        id: projectId,
+        userId: currentUser.id,
+      },
+    });
+
+    return NextResponse.json(project);
+  } catch (Err: any) {
+    return new NextResponse(Err.message, { status: 500 });
+  }
+}

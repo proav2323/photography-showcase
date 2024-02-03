@@ -6,13 +6,16 @@ import React, { useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import bg from '../public/images/bg.jpg'
-import { LocateIcon } from 'lucide-react'
+import { LocateIcon, MenuIcon } from 'lucide-react'
 import { useModal } from '@/hooks/useModel'
 import { user } from '@prisma/client'
 import EmptyState from './EmptyState'
 import { useRouter } from 'next/navigation'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu'
+import axios from 'axios'
+import toast from 'react-hot-toast'
 
-export default function ProjectsList({projects, currentUser, showButton = false, showMoreOptions = false}: {projects: projectWithCommenst[], currentUser?: user | null, showButton?: boolean, showMoreOptions?: boolean}) {
+export default function ProjectsList({projects, currentUser, showButton = false, showMoreOptions = false, title, subTitle}: {projects: projectWithCommenst[], currentUser?: user | null, showButton?: boolean, showMoreOptions?: boolean, title?: string, subTitle?: string}) {
     const [show, setShow] = useState(false)
     const [projectId, setProjectId] = useState("")
     const [popshow, popsetShow] = useState(false)
@@ -22,15 +25,25 @@ export default function ProjectsList({projects, currentUser, showButton = false,
 
     if (projects.length <= 0) {
         return (
-            <EmptyState title='No Projects found' showReset={showButton} subTitle='try removing search' url="/search" />
+            <EmptyState title={title ? title : 'No Projects found'} showReset={showButton} subTitle={subTitle ? subTitle :'try removing search'} url="/search" />
         )
+    }
+
+    const deleteProj = (projectId: string) => {
+       axios.delete(`/api/project/${projectId}`).then(() => {
+        toast.success("project deleted")
+        router.refresh()
+       }).catch((err) => {
+        toast.error(err.response.data)
+       })
     }
   return (
     <div className='flex flex-wrap gap-2'>
        {projects.map((project, index) => {
         const name = project.name.length> 15 ? project.name.substring(0, 15) + "..." : project.name; 
         return (
-            <div key={project.id} className='flex flex-col gap-2 px-2'>
+            <div key={project.id} className='flex flex-col gap-2 px-2 relative'>
+
                 <div className='relative w-60 h-60 rounded-md cursor-pointer transition-all duration-300 ease-in-out' onMouseEnter={() => {
                     setShow(true)
                     setProjectId(project.id)
@@ -75,6 +88,20 @@ export default function ProjectsList({projects, currentUser, showButton = false,
 </div>
                         </PopoverContent>
                     </Popover>
+                                    {showMoreOptions && (
+                <DropdownMenu>
+                    <DropdownMenuTrigger className='absolute top-4 right-4 text-red-500'>
+                          <MenuIcon size={22} />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuGroup>
+                            <DropdownMenuItem>Edit</DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem onClick={() => deleteProj(project.id)}>delete</DropdownMenuItem>
+                        </DropdownMenuGroup>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+                )}
             </div>
         )
        })}
