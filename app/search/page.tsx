@@ -6,7 +6,7 @@ export default async function page({searchParams}: {searchParams: {search: strin
     const getJobs = await getSaerchedJobs(searchParams)
   return (
     <div className='flex flex-col w-full gap-2'>
-        <ProjectsList projects={getJobs} />
+        <ProjectsList projects={getJobs} showButton />
     </div>
   )
 }

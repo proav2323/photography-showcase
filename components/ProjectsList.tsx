@@ -9,13 +9,20 @@ import bg from '../public/images/bg.jpg'
 import { LocateIcon } from 'lucide-react'
 import { useModal } from '@/hooks/useModel'
 import { user } from '@prisma/client'
+import EmptyState from './EmptyState'
 
-export default function ProjectsList({projects, currentUser}: {projects: projectWithCommenst[], currentUser?: user | null}) {
+export default function ProjectsList({projects, currentUser, showButton = false}: {projects: projectWithCommenst[], currentUser?: user | null, showButton?: boolean}) {
     const [show, setShow] = useState(false)
     const [projectId, setProjectId] = useState("")
     const [popshow, popsetShow] = useState(false)
     const [popprojectId, popsetProjectId] = useState("")
-    const {onOpen} = useModal()
+    const {onOpen} = useModal();
+
+    if (projects.length <= 0) {
+        return (
+            <EmptyState title='No Projects found' showReset={showButton} subTitle='try removing search' url="/search" />
+        )
+    }
   return (
     <div className='flex flex-wrap gap-2'>
        {projects.map((project, index) => {
