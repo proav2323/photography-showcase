@@ -20,7 +20,7 @@ export default function ProjectsList({projects, currentUser, showButton = false,
     const [projectId, setProjectId] = useState("")
     const [popshow, popsetShow] = useState(false)
     const [popprojectId, popsetProjectId] = useState("")
-    const {onOpen} = useModal();
+    const {onOpen, onClose} = useModal();
     const router = useRouter()
 
     if (projects.length <= 0) {
@@ -36,6 +36,11 @@ export default function ProjectsList({projects, currentUser, showButton = false,
        }).catch((err) => {
         toast.error(err.response.data)
        })
+    }
+
+    const edit = (proj: projectWithCommenst) => {
+        onClose();
+        onOpen("addProject", {isEditingProject: true, project: proj})
     }
   return (
     <div className='flex flex-wrap gap-2'>
@@ -95,7 +100,7 @@ export default function ProjectsList({projects, currentUser, showButton = false,
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
                         <DropdownMenuGroup>
-                            <DropdownMenuItem>Edit</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => edit(project)}>Edit</DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem onClick={() => deleteProj(project.id)}>delete</DropdownMenuItem>
                         </DropdownMenuGroup>

@@ -1,7 +1,7 @@
 "use client"
 
 import { useModal } from '@/hooks/useModel'
-import React, {useRef, useState} from 'react'
+import React, {useCallback, useEffect, useRef, useState} from 'react'
 import {
   Dialog,
   DialogContent,
@@ -103,8 +103,8 @@ uploadTask.on('state_changed',
 export default function AddProjectModel() {
     const {onOpen, data, isOpen, onClose, type} = useModal()
     const open = type === "addProject" && isOpen
-    const {currentUser} = data
-    const [images, setImages] = useState([])
+    const {currentUser, isEditingProject, project} = data
+    const [images, setImages] = useState<string[]>([])
     const [isLoading, setIsLoading] = useState(false)
 
 
@@ -118,7 +118,40 @@ export default function AddProjectModel() {
     })
 
    const router = useRouter()
+
+   const change = useCallback(() => {
+            setImages(isEditingProject !== undefined && isEditingProject === true && project !== undefined ? project.images : [])
+   }, [isEditingProject, project])
+
+   useEffect(() => {
+            change()
+            form.setValue("name", isEditingProject !== undefined && isEditingProject === true && project !== undefined ? project.name : "")
+            form.setValue("description", isEditingProject !== undefined && isEditingProject === true && project !== undefined ? project.description : "")
+            form.setValue("moreToKnow", isEditingProject !== undefined && isEditingProject === true && project !== undefined ? project.moreToKnow: "")
+   }, [project, isEditingProject, form, change])
+
     const onSubmit = (values: z.infer<typeof addPorjectSvhemea>) => {
+      if (isEditingProject) {
+      setIsLoading(true)
+       if (images.length <= 0) {
+        toast.error("provide one image for your project")
+       }
+
+       axios.put(`/api/project/${project?.id}`, {
+        name: values.name,
+        desc: values.description,
+        more: values.moreToKnow,
+        images: images
+       }).then(() => {
+        toast.success("project edited")
+        onClose()
+        router.refresh()
+       }).catch((err) => {
+        toast.error(err.response.data)
+       }).finally(() => {
+        setIsLoading(false)
+       })
+      } else {
       setIsLoading(true)
        if (images.length <= 0) {
         toast.error("provide one image for your project")
@@ -138,6 +171,7 @@ export default function AddProjectModel() {
        }).finally(() => {
         setIsLoading(false)
        })
+      }
     }
 
     const inutRef = useRef<HTMLInputElement | null>(null)
@@ -154,13 +188,17 @@ export default function AddProjectModel() {
        setImages((prev) => prev.filter((data) => data !== remove))
     }
 
+    const name = form.watch("name");
+    const desc = form.watch("description");
+    const more = form.watch("moreToKnow");
+
     
 
   return (
         <Dialog open={open} onOpenChange={() => onClose()}>
          <DialogContent className='h-fit max-h-[100vh] overflow-y-scroll noScroll'>
           <div className='mb-4'>
-              <Heading title='Show Your Work' subtitle='Add Project' center />
+              <Heading title='Show Your Work' subtitle={isEditingProject ? "Edit Project" :'Add Project'} center />
           </div>
               <Separator />
               <Form {...form}>
@@ -224,7 +262,7 @@ export default function AddProjectModel() {
             <ScrollBar orientation="horizontal" />
            </ScrollArea>
            </div>
-        <Button disabled={isLoading} type="submit">Add</Button>
+        <Button disabled={isLoading || (name === project?.name && desc === project?.description && more === project?.moreToKnow && images === project?.images)} type="submit">{isEditingProject ? "Save" : "Add"}</Button>
                  </form>
               </Form>
         </DialogContent> 

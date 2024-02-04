@@ -23,6 +23,7 @@ export interface modelStore {
 interface modelData {
   currentUser?: user;
   project?: projectWithCommenst;
+  isEditingProject?: boolean;
 }
 
 export const useModal = create<modelStore>((set) => ({

@@ -82,3 +82,40 @@ export async function DELETE(
     return new NextResponse(Err.message, { status: 500 });
   }
 }
+
+export async function PUT(
+  req: Request,
+  { params }: { params: { projectId: string } }
+) {
+  try {
+    const currentUser = await getCurrentUser();
+
+    if (!currentUser) {
+      return new NextResponse("unaythorized", { status: 401 });
+    }
+
+    const { name, desc, more, images } = await req.json();
+
+    if (!name || !desc || !more || images.length <= 0 || !params.projectId) {
+      return new NextResponse("empty values", { status: 404 });
+    }
+
+    const project = await db.projects.update({
+      where: {
+        id: params.projectId,
+        userId: currentUser.id,
+      },
+      data: {
+        userId: currentUser.id,
+        name: name,
+        description: desc,
+        moreToKnow: more,
+        images: images,
+      },
+    });
+
+    return NextResponse.json(project);
+  } catch (Err: any) {
+    return new NextResponse(Err.message, { status: 500 });
+  }
+}
