@@ -1,6 +1,6 @@
 "use client"
 
-import { projectWithCommenst } from '@/types'
+import { projectWithCommenst, userWithInfo } from '@/types'
 import Image from 'next/image'
 import React, { useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
@@ -15,7 +15,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import axios from 'axios'
 import toast from 'react-hot-toast'
 
-export default function ProjectsList({projects, currentUser, showButton = false, showMoreOptions = false, title, subTitle}: {projects: projectWithCommenst[], currentUser?: user | null, showButton?: boolean, showMoreOptions?: boolean, title?: string, subTitle?: string}) {
+export default function ProjectsList({projects, currentUser, showButton = false, showMoreOptions = false, title, subTitle}: {projects: projectWithCommenst[], currentUser?: userWithInfo | null, showButton?: boolean, showMoreOptions?: boolean, title?: string, subTitle?: string}) {
     const [show, setShow] = useState(false)
     const [projectId, setProjectId] = useState("")
     const [popshow, popsetShow] = useState(false)

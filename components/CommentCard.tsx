@@ -1,6 +1,6 @@
 "use client"
 
-import { CommentsWithUser } from '@/types'
+import { CommentsWithUser, userWithInfo } from '@/types'
 import React, { useState } from 'react'
 import {
   Card,
@@ -21,7 +21,7 @@ import { useModal } from '@/hooks/useModel'
 import { useRouter } from 'next/navigation'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 
-export default function CommentCard({comment, currentUser}: {comment: CommentsWithUser, currentUser?: user | null}) {
+export default function CommentCard({comment, currentUser}: {comment: CommentsWithUser, currentUser?: userWithInfo | null}) {
    const [loading, setLoading] = useState(false)
    const [message, setMessage] = useState("")
    const {onOpen, onClose} = useModal()

@@ -109,7 +109,7 @@ export default function UserProfile({user, currentUser}: {user: userWithInfo, cu
             {currentUser && user.languages.length === 0 && currentUser.id === user.id && (
               <div className='flex flex-row justify-between items-center w-full'>
                 <span className='text-lg font-bold flex-1'>languages i know</span>
-                <Plus className='cursor-pointer my-2' size={18} />
+                <Plus onClick={() => onOpen("addLan")} className='cursor-pointer my-2' size={18} />
               </div>
             )}
 
@@ -117,7 +117,7 @@ export default function UserProfile({user, currentUser}: {user: userWithInfo, cu
             <div className='flex flex-col justify-start items-start gap-2'>
               <div className='flex flex-row justify-between items-center w-full'>
                 <span className='text-lg font-bold flex-1'>languages i know</span>
-                {currentUser && currentUser.id === user.id && (<Plus className='cursor-pointer my-2' size={18} />)}
+                {currentUser && currentUser.id === user.id && (<Plus onClick={() => onOpen("addLan")} className='cursor-pointer my-2' size={18} />)}
               </div>
 
               <ScrollArea className='md:w-[20vw] w-[90vw] whitespace-nowrap rounded-md border'>

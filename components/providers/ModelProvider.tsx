@@ -7,6 +7,7 @@ import AddProjectModel from '../models/AddProjectModel'
 import ProjectDetails from '../models/ProjectDetails'
 import EditProfile from '../models/EditProfile'
 import AddExperince from '../models/AddExperince'
+import AddLan from '../models/addLan'
 
 export default function ModelProvider() {
   return (
@@ -17,6 +18,7 @@ export default function ModelProvider() {
     <AddProjectModel />
     <EditProfile />
     <AddExperince />
+    <AddLan />
     </>
   )
 }

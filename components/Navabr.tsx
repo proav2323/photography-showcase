@@ -16,9 +16,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useModal } from '@/hooks/useModel'
 import { signOut } from 'next-auth/react';
 import { usePathname, useRouter } from 'next/navigation'
+import { userWithInfo } from '@/types'
 
 
-export default function Navabr({currentUser}: {currentUser: null | user}) {
+export default function Navabr({currentUser}: {currentUser: null | userWithInfo}) {
   const {onOpen, onClose} = useModal()
   const [search, setSearch] = useState("")
   const path = usePathname()
@@ -40,7 +41,7 @@ export default function Navabr({currentUser}: {currentUser: null | user}) {
       console.log(path)
   }
   return (
-   <div className='flex flex-row justify-between items-center h-[60px] w-full dark:bg-neutral-700 bg-neutral-400 shadow-md gap-2 dark:shadow-black shadow-neutral-400'>
+   <div className='flex flex-row justify-between items-center h-[60px] w-full dark:bg-neutral-700 bg-neutral-400 shadow-md gap-2 dark:shadow-black shadow-neutral-400 sticky top-0 z-[50]'>
       <div className='flex flex-row gap-2 px-2 cursor-pointer' onClick={() => router.push("/")}>
           <span className='md:text-lg font-bold text-md'>PHOTOSHOW</span>
       </div>
