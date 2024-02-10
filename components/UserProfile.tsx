@@ -55,7 +55,7 @@ export default function UserProfile({user, currentUser}: {user: userWithInfo, cu
               onOpen("editProfile", {currentUser: currentUser})
               console.log("lkl");
 }}>Edit Profile</Button>)}
-            {currentUser && user.id !== currentUser.id && (<Button className='my-2 w-[98%]'>Hire</Button>)}
+            {currentUser && user.id !== currentUser.id && (<a target='_blank' href={`https://mail.google.com/mail/?view=cm&fs=1&to=${user.email}`} className='my-2 w-[98%] p-2 rounded-full dark:bg-neutral-600 bg-neutral-300 hover:underline transition'>Hire</a>)}
             
             {currentUser && user.socialLinks.length === 0 && currentUser.id === user.id && (
               <div className='flex flex-row justify-between items-center w-full'>

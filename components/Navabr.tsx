@@ -67,8 +67,6 @@ export default function Navabr({currentUser}: {currentUser: null | userWithInfo}
     <DropdownMenuLabel>My Account</DropdownMenuLabel>
     <DropdownMenuSeparator />
     <DropdownMenuItem onClick={() => router.push(`/users/${currentUser.id}`)}>Profile</DropdownMenuItem>
-    <DropdownMenuItem>Discover</DropdownMenuItem>
-    <DropdownMenuItem>Hire</DropdownMenuItem>
     <DropdownMenuItem className='flex md:hidden' onClick={() => model()}>Show Your Work</DropdownMenuItem>
     <DropdownMenuSeparator></DropdownMenuSeparator>
     <DropdownMenuItem onClick={() => signOut()}>Logout</DropdownMenuItem>
