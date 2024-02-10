@@ -5,6 +5,8 @@ import LoginModel from '../models/LoginModel'
 import RegisterModel from '../models/RegisterModel'
 import AddProjectModel from '../models/AddProjectModel'
 import ProjectDetails from '../models/ProjectDetails'
+import EditProfile from '../models/EditProfile'
+import AddExperince from '../models/AddExperince'
 
 export default function ModelProvider() {
   return (
@@ -13,6 +15,8 @@ export default function ModelProvider() {
     <RegisterModel />
     <ProjectDetails />
     <AddProjectModel />
+    <EditProfile />
+    <AddExperince />
     </>
   )
 }

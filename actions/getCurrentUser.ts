@@ -15,6 +15,21 @@ export default async function getCurrentUser() {
       where: {
         email: session.user.email as string,
       },
+      include: {
+        projects: {
+          include: {
+            comments: {
+              include: {
+                createdBy: true,
+              },
+            },
+            user: true,
+          },
+        },
+        workExperince: true,
+        languages: true,
+        socialLinks: true,
+      },
     });
     return user;
   } catch (err) {

@@ -8,9 +8,17 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { user } from "@prisma/client";
-import { projectWithCommenst } from "@/types";
+import { projectWithCommenst, userWithInfo } from "@/types";
 
-export type modelType = "Login" | "register" | "addProject" | "updateProject";
+export type modelType =
+  | "Login"
+  | "register"
+  | "addProject"
+  | "updateProject"
+  | "editProfile"
+  | "addExp"
+  | "addLan"
+  | "AddLink";
 
 export interface modelStore {
   type: modelType | null;
@@ -21,7 +29,7 @@ export interface modelStore {
 }
 
 interface modelData {
-  currentUser?: user;
+  currentUser?: userWithInfo;
   project?: projectWithCommenst;
   isEditingProject?: boolean;
 }

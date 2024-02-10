@@ -13,9 +13,12 @@ import Link from './Link'
 import Experince from './Experince'
 import Lan from './Lan'
 import ProjectsList from './ProjectsList'
+import { useModal } from '@/hooks/useModel'
+import { Plus } from 'lucide-react'
+import { ScrollArea, ScrollBar } from './ui/scroll-area'
 
 
-export default function UserProfile({user, currentUser}: {user: userWithInfo, currentUser: user | null}) { 
+export default function UserProfile({user, currentUser}: {user: userWithInfo, currentUser: userWithInfo | null}) { 
   const bioo = user.bio ?? "";
   const [bio, setBio] = useState(bioo ? bioo.length > 30 ? bioo.substring(0, 30) + "..." : bioo : "")
   const [showMore, setShowMore] = useState(bio.length < 30)
@@ -29,6 +32,8 @@ export default function UserProfile({user, currentUser}: {user: userWithInfo, cu
       setBio(bioo);
      }
   }
+
+  const {onOpen} = useModal()
   return (
     <div className='flex flex-col gap-2 justify-center items-center'>
       <div className='w-full h-[205px] relative'>
@@ -44,45 +49,86 @@ export default function UserProfile({user, currentUser}: {user: userWithInfo, cu
             <span className='text-xl font-bold'>{user.firstName} {user.lastName}</span>
             {user.occupation && (<span className='my-2 font-semibold text-lg text-neutral-300 dark:text-neutral-500'>{user.occupation}</span>)}
             {bio !== "" && (<p onClick={() => chnage()} className='text-center my-2 break-words text-sm font-light cursor-pointer text-neutral-200 dark:text-neutral-500 w-[98%]'>{bio}</p>)}
-            {user.location && (<span><IoLocationSharp size={18} /> {user.location}</span>)}
+            {user.location && (<span className='flex flex-row gap-2'><IoLocationSharp size={18} /> {user.location}</span>)}
             {user.websiteUrl && (<a href={user.websiteUrl} className='my-2 text-blue-500 hover:underline transition'>{user.websiteUrl.length > 30 ? user.websiteUrl.substring(0, 30) + "..." : user.websiteUrl }</a>)}
-            {currentUser && user.id === currentUser.id && (<Button className='my-2 w-[98%]'>Edit Profile</Button>)}
+            {currentUser && user.id === currentUser.id && (<Button className='my-2 w-[98%]' onClick={() => {
+              onOpen("editProfile", {currentUser: currentUser})
+              console.log("lkl");
+}}>Edit Profile</Button>)}
             {currentUser && user.id !== currentUser.id && (<Button className='my-2 w-[98%]'>Hire</Button>)}
-            {user.contactInfo && (<span className='text-sm text-neutral-100 dark:text-neutral-500'>{user.contactInfo}</span>)}
+            
+            {currentUser && user.socialLinks.length === 0 && currentUser.id === user.id && (
+              <div className='flex flex-row justify-between items-center w-full'>
+                <span className='text-lg font-bold flex-1'>find me</span>
+                <Plus className='cursor-pointer my-2' size={18} />
+              </div>
+            )}
 
             {user.socialLinks.length > 0 && (
             <div className='flex flex-col justify-start items-start gap-2'>
-              <span className='text-lg font-bold'>Find me</span>
+              <div className='flex flex-row justify-between items-center w-full'>
+                <span className='text-lg font-bold flex-1'>find me</span>
+                {currentUser && currentUser.id === user.id && (<Plus className='cursor-pointer my-2' size={18} />)}
+              </div>
 
-              <div className='flex flec-row max-w-[98%] overflow-x-scroll noScroll'>
+              <ScrollArea className='md:w-[20vw] w-[90vw] whitespace-nowrap rounded-md border'>
+                <div className="flex w-max space-x-4 p-4">
                 {user.socialLinks.map((link) => (
                   <Link link={link} key={link.id} />
                 ))}
+                </div>
+                <ScrollBar orientation="horizontal" />
+              </ScrollArea>
               </div>
+            )}
+
+            {currentUser && user.workExperince.length === 0 && currentUser.id === user.id && (
+              <div className='flex flex-row justify-between items-center w-full'>
+                <span className='text-lg font-bold flex-1'>my Experince</span>
+                <Plus onClick={() => onOpen("addExp")} className='cursor-pointer my-2' size={18} />
+              </div>
+            )}
+            {user.workExperince.length > 0 && (
+            <div className='flex flex-col justify-start items-start gap-2'>
+              <div className='flex flex-row justify-between items-center w-full'>
+                <span className='text-lg font-bold flex-1'>my Experince</span>
+                {currentUser && currentUser.id === user.id && (<Plus onClick={() => onOpen("addExp")} className='cursor-pointer my-2' size={18} />)}
+              </div>
+
+              <ScrollArea className='md:w-[20vw] w-[85vw] whitespace-nowrap rounded-md border'>
+                <div className="flex w-[95%] space-x-4 p-4">
+                {user.workExperince.map((ex) => (
+                  <Experince key={ex.id} ex={ex} is={currentUser && currentUser.id === user.id ? true : false} />
+                ))}
+                </div>
+                <ScrollBar orientation="horizontal" />
+              </ScrollArea>
             </div>
             )}
 
-            {user.workExperince.length > 0 && (
-            <div className='flex flex-col justify-start items-start gap-2'>
-              <span className='text-lg font-bold'>my Experince</span>
-
-              <div className='flex flec-row max-w-[98%] overflow-x-scroll noScroll'>
-                {user.workExperince.map((ex) => (
-                  <Experince key={ex.id} ex={ex} />
-                ))}
+            {currentUser && user.languages.length === 0 && currentUser.id === user.id && (
+              <div className='flex flex-row justify-between items-center w-full'>
+                <span className='text-lg font-bold flex-1'>languages i know</span>
+                <Plus className='cursor-pointer my-2' size={18} />
               </div>
-            </div>
             )}
 
             {user.languages.length > 0 && (
             <div className='flex flex-col justify-start items-start gap-2'>
-              <span className='text-lg font-bold'>languages i know</span>
+              <div className='flex flex-row justify-between items-center w-full'>
+                <span className='text-lg font-bold flex-1'>languages i know</span>
+                {currentUser && currentUser.id === user.id && (<Plus className='cursor-pointer my-2' size={18} />)}
+              </div>
 
-              <div className='flex flec-row max-w-[98%] overflow-x-scroll noScroll'>
+              <ScrollArea className='md:w-[20vw] w-[90vw] whitespace-nowrap rounded-md border'>
+                <div className="flex w-max space-x-4 p-4">
                 {user.languages.map((ex) => (
                   <Lan key={ex.id} lan={ex} />
                 ))}
-              </div>
+                </div>
+                <ScrollBar orientation="horizontal" />
+
+              </ScrollArea>
             </div>
             )}
         </CardContent>
