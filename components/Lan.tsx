@@ -6,11 +6,11 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 
-export default function Lan({lan}: {lan: language}) {
+export default function Lan({lan, is}: {lan: language, is: boolean}) {
   const [isLoading, setIsLoading] = useState(false)
     const router = useRouter();
   const deletL = () => {
-      if (isLoading) {
+      if (isLoading || !is) {
     return;
   }
       setIsLoading(true);

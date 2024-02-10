@@ -4,17 +4,17 @@ import { NextResponse } from "next/server";
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { lanId: string } }
+  { params }: { params: { linkId: string } }
 ) {
   try {
     const currentUser = await getCurrentUser();
 
-    if (!currentUser || !params.lanId) {
+    if (!currentUser || !params.linkId) {
       return new NextResponse("unauthorized");
     }
 
-    const exp = await db.language.delete({
-      where: { id: params.lanId, userId: currentUser.id },
+    const exp = await db.links.delete({
+      where: { id: params.linkId, userId: currentUser.id },
     });
 
     return NextResponse.json(exp);

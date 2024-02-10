@@ -60,7 +60,7 @@ export default function UserProfile({user, currentUser}: {user: userWithInfo, cu
             {currentUser && user.socialLinks.length === 0 && currentUser.id === user.id && (
               <div className='flex flex-row justify-between items-center w-full'>
                 <span className='text-lg font-bold flex-1'>find me</span>
-                <Plus className='cursor-pointer my-2' size={18} />
+                <Plus onClick={() => onOpen("AddLink")} className='cursor-pointer my-2' size={18} />
               </div>
             )}
 
@@ -68,13 +68,13 @@ export default function UserProfile({user, currentUser}: {user: userWithInfo, cu
             <div className='flex flex-col justify-start items-start gap-2'>
               <div className='flex flex-row justify-between items-center w-full'>
                 <span className='text-lg font-bold flex-1'>find me</span>
-                {currentUser && currentUser.id === user.id && (<Plus className='cursor-pointer my-2' size={18} />)}
+                {currentUser && currentUser.id === user.id && (<Plus onClick={() => onOpen("AddLink")} className='cursor-pointer my-2' size={18} />)}
               </div>
 
               <ScrollArea className='md:w-[20vw] w-[90vw] whitespace-nowrap rounded-md border'>
                 <div className="flex w-max space-x-4 p-4">
                 {user.socialLinks.map((link) => (
-                  <Link link={link} key={link.id} />
+                  <Link link={link} key={link.id} is={currentUser && currentUser.id === user.id ? true:  false} />
                 ))}
                 </div>
                 <ScrollBar orientation="horizontal" />
@@ -123,7 +123,7 @@ export default function UserProfile({user, currentUser}: {user: userWithInfo, cu
               <ScrollArea className='md:w-[20vw] w-[90vw] whitespace-nowrap rounded-md border'>
                 <div className="flex w-max space-x-4 p-4">
                 {user.languages.map((ex) => (
-                  <Lan key={ex.id} lan={ex} />
+                  <Lan key={ex.id} lan={ex} is={currentUser && currentUser.id === user.id ? true:  false} />
                 ))}
                 </div>
                 <ScrollBar orientation="horizontal" />

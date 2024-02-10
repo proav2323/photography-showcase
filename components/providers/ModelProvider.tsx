@@ -8,6 +8,7 @@ import ProjectDetails from '../models/ProjectDetails'
 import EditProfile from '../models/EditProfile'
 import AddExperince from '../models/AddExperince'
 import AddLan from '../models/addLan'
+import AddLink from '../models/AddLink'
 
 export default function ModelProvider() {
   return (
@@ -19,6 +20,7 @@ export default function ModelProvider() {
     <EditProfile />
     <AddExperince />
     <AddLan />
+    <AddLink />
     </>
   )
 }
